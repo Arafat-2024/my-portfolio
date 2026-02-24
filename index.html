@@ -1,14 +1,258 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>My Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yasin Arafat | Cyber Security Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #00ffd5;
+            --secondary: #3a86ff;
+            --bg-dark: #020617;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-light: #f1f1f1;
+            --glass: rgba(15, 23, 42, 0.8);
+        }
+
+        body.light {
+            --bg-dark: #f8fafc;
+            --text-light: #1e293b;
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background: var(--bg-dark); color: var(--text-light); scroll-behavior: smooth; transition: 0.5s; overflow-x: hidden; }
+
+        /* Navigation */
+        nav { 
+            position: fixed; width: 100%; padding: 20px 50px; z-index: 1000; 
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--glass); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        nav .links a { color: var(--text-light); margin-left: 25px; text-decoration: none; font-weight: 500; transition: 0.3s; }
+        nav .links a:hover { color: var(--primary); }
+        .toggle { background: var(--primary); border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+
+        /* Hero Section */
+        #home {
+            height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;
+            background: linear-gradient(rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.7)), 
+                        url('https://www.shutterstock.com/image-illustration/cyber-security-data-protection-business-260nw-2476569139.jpg');
+            background-size: cover; background-position: center; position: relative;
+        }
+
+        /* Scanning Animation Effect */
+        #home::after {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--primary); opacity: 0.2; box-shadow: 0 0 20px var(--primary);
+            animation: scan 4s linear infinite;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+        .hero-card {
+            background: var(--glass); padding: 40px; border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(15px);
+            transform: translateY(0); animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        .hero-title { font-size: 64px; margin-bottom: 10px; background: linear-gradient(90deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* General Sections */
+        section { padding: 100px 10% 60px; min-height: 80vh; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
+        .reveal.show { opacity: 1; transform: translateY(0); }
+
+        h2 { font-size: 36px; margin-bottom: 30px; border-left: 5px solid var(--primary); padding-left: 15px; }
+
+        /* Section Backgrounds */
+        #about { background: radial-gradient(circle at top right, rgba(58, 134, 255, 0.1), transparent); }
+        #skills { background: radial-gradient(circle at bottom left, rgba(0, 255, 213, 0.1), transparent); }
+
+        .card { 
+            background: var(--card-bg); padding: 30px; border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .card:hover { border-color: var(--primary); transform: scale(1.02); background: rgba(255,255,255,0.08); }
+
+        /* Skill Orbit - Modernized */
+        .skill-container { display: flex; justify-content: center; align-items: center; padding: 50px 0; }
+        .skill-orbit { position: relative; width: 400px; height: 400px; border: 1px dashed rgba(255,255,255,0.2); border-radius: 50%; animation: spin 30s linear infinite; }
+        .skill-item {
+            position: absolute; top: 50%; left: 50%; margin: -35px;
+            width: 80px; height: 80px; background: var(--glass); 
+            border: 2px solid var(--primary); border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 10px; color: white; transition: 0.3s;
+        }
+        .skill-item i { font-size: 24px; margin-bottom: 5px; color: var(--primary); }
+        
+        /* Orbit Positioning */
+        .skill-item:nth-child(1) { transform: rotate(0deg) translate(200px) rotate(0deg); }
+        .skill-item:nth-child(2) { transform: rotate(60deg) translate(200px) rotate(-60deg); }
+        .skill-item:nth-child(3) { transform: rotate(120deg) translate(200px) rotate(-120deg); }
+        .skill-item:nth-child(4) { transform: rotate(180deg) translate(200px) rotate(-180deg); }
+        .skill-item:nth-child(5) { transform: rotate(240deg) translate(200px) rotate(-240deg); }
+        .skill-item:nth-child(6) { transform: rotate(300deg) translate(200px) rotate(-300deg); }
+
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .skill-orbit:hover { animation-play-state: paused; }
+
+        /* Grid & Projects */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .project-card i { font-size: 40px; color: var(--secondary); margin-bottom: 15px; }
+
+        /* Contact Section */
+        #contact { background: #000; text-align: center; }
+        .btn { 
+            display: inline-block; padding: 12px 30px; background: var(--primary); 
+            color: #000; border-radius: 50px; text-decoration: none; font-weight: bold;
+            transition: 0.3s; box-shadow: 0 0 15px var(--primary);
+        }
+        .btn:hover { box-shadow: 0 0 30px var(--primary); transform: scale(1.05); }
+
+    </style>
 </head>
+<body class="dark">
 
-<body style="font-family:Arial; text-align:center; padding:60px;">
-    <h1>Yasin Arafat</h1>
-    <p>This is my portfolio website.</p>
-    <p>I am a student and developer.</p>
+<nav>
+    <div style="font-weight: bold; font-size: 20px; color: var(--primary);">YA.SEC</div>
+    <div class="links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </div>
+    <button class="toggle" onclick="toggleTheme()">🌓 Mode</button>
+</nav>
+
+<section id="home">
+    <div class="hero-card">
+        <h1 class="hero-title">Yasin Arafat</h1>
+        <h3 style="color: var(--primary); letter-spacing: 2px;">
+            <span id="typing"></span><span style="border-right: 2px solid white; animation: blink 1s infinite;"></span>
+        </h3>
+        <p style="margin-top: 20px; opacity: 0.8;">Securing the connection. Powering the future.</p>
+    </div>
+</section>
+
+<section id="about" class="reveal">
+    <div class="container">
+        <h2>About Me</h2>
+        <div class="card">
+            <p style="font-size: 18px; line-height: 1.8;">
+                I’m a <b>Cyber Security and Network Engineer</b> who loves tackling complex puzzles. My goal is simple: to build networks that are as fast and reliable as they are secure. Technology moves fast, and threats move faster, which is why I’m constantly learning and adapting to stay ahead of the curve. 
+                <br><br>
+                I'm passionate about designing systems that don't just stop today's attacks, but are ready for whatever comes next. Let's work together to build something great—and make sure it stays completely secure.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="education" class="reveal">
+    <div class="container">
+        <h2>Education & Credentials</h2>
+        <div class="grid">
+            <div class="card">
+                <i class="fas fa-university" style="font-size: 30px; color: var(--primary); margin-bottom: 10px;"></i>
+                <h3>BSc in CSE</h3>
+                <p>AIUB | 2023 – Present</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-certificate" style="font-size: 30px; color: var(--secondary); margin-bottom: 10px;"></i>
+                <h3>Google Cybersecurity</h3>
+                <p>Professional Certificate</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-user-shield" style="font-size: 30px; color: var(--primary); margin-bottom: 10px;"></i>
+                <h3>Ethical Hacking</h3>
+                <p>Career Track Program</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="skills" class="reveal">
+    <div class="container">
+        <h2 style="text-align: center;">Technical Arsenal</h2>
+        <div class="skill-container">
+            <div class="skill-orbit">
+                <div class="skill-item"><i class="fas fa-network-wired"></i>Network</div>
+                <div class="skill-item"><i class="fab fa-python"></i>Python</div>
+                <div class="skill-item"><i class="fas fa-shield-halved"></i>Security</div>
+                <div class="skill-item"><i class="fas fa-database"></i>SQL</div>
+                <div class="skill-item"><i class="fab fa-java"></i>Java</div>
+                <div class="skill-item"><i class="fas fa-code"></i>C#</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="reveal">
+    <div class="container">
+        <h2>Featured Projects</h2>
+        <div class="grid">
+            <div class="card project-card">
+                <i class="fas fa-ticket-alt"></i>
+                <h3>Online Ticket System</h3>
+                <p>Robust management system built with Java and secure database integration.</p>
+            </div>
+            <div class="card project-card">
+                <i class="fas fa-user-secret"></i>
+                <h3>ML Phishing Detection</h3>
+                <p>Using Machine Learning to identify and block malicious phishing URLs in real-time.</p>
+            </div>
+            <div class="card project-card">
+                <i class="fas fa-music"></i>
+                <h3>Music Database</h3>
+                <p>A high-performance relational database system for managing global music assets.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="reveal">
+    <div class="container">
+        <h2 style="border: none; text-align: center;">Get In Touch</h2>
+        <p style="margin: auto; margin-bottom: 30px;">Ready to secure your next project? Let's talk.</p>
+        <div class="grid" style="margin-bottom: 40px;">
+            <p><i class="fas fa-envelope"></i> 23-51115-1@student.aiub.edu</p>
+            <p><i class="fab fa-linkedin"></i> yasin-arafat-aa31b9301</p>
+            <p><i class="fab fa-github"></i> Arafat-2024</p>
+        </div>
+        <a class="btn" href="mailto:23-51115-1@student.aiub.edu">Send Message</a>
+    </div>
+</section>
+
+<script>
+    function toggleTheme() { document.body.classList.toggle('light'); }
+
+    // Intersection Observer for Reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('show');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Typing Effect
+    const text = "Cyber Security & Network Engineer";
+    let i = 0;
+    function type() {
+        if (i < text.length) {
+            document.getElementById('typing').textContent += text.charAt(i);
+            i++;
+            setTimeout(type, 100);
+        }
+    }
+    window.onload = type;
+</script>
+
 </body>
-
 </html>
